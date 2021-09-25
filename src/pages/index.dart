@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'index/aperos.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
@@ -8,29 +10,26 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeView extends State<HomeView> {
-
   final List<BottomNavigationBarItem> bottomItems = [
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
         icon: Icon(Icons.wine_bar),
         label: "Apéros"
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
         icon: Icon(Icons.link),
         label: "Links"
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
         icon: Icon(Icons.apps),
         label: "Projekte"
     )
   ];
-  final List<Widget> _widgetOptions = <Widget>[
-    const Text(
-      'Apéros',
-    ),
-    const Text(
+  final List<Widget> _widgetOptions = const <Widget>[
+    HomeAperosView(),
+    Text(
       'Links',
     ),
-    const Text(
+    Text(
       'Projekte',
     ),
   ];
@@ -40,13 +39,11 @@ class _HomeView extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: GestureDetector(
-          child: _widgetOptions.elementAt(_selectedIndex),
-          onTap: () => {
-            Navigator.of(context).pushNamed('asd')
-          },
-        ),
+      body: SafeArea(
+        child:  IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions,
+        )
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: bottomItems,
