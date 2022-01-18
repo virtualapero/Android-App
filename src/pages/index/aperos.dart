@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../dependencies.dart';
@@ -64,17 +63,18 @@ class _HomeAperosView extends State<HomeAperosView> {
                   child: Padding(
                     padding: EdgeInsets.all(16.0),
                     child: CircularProgressIndicator(),
-                  ));
+                  )
+              );
             }
             var apero = service.aperos[index];
-            var content = [
+            List<Widget> content = [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     apero.title,
                     style: const TextStyle(
-                      fontSize: 28.0,
+                      fontSize: 24.0,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -88,13 +88,6 @@ class _HomeAperosView extends State<HomeAperosView> {
                   )
                 ],
               ),
-              Text(
-                apero.member,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .caption,
-              )
             ];
 
             if (apero.content.isNotEmpty) {
@@ -106,15 +99,29 @@ class _HomeAperosView extends State<HomeAperosView> {
               ]);
             }
 
-            return Card(
-            child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: content
-            ),
-            ));
+            var card = GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed("/apero", arguments: apero.id);
+              },
+              child: Container(
+                  child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: content
+                  ),
+                )
+              )
+            );
+
+            if(index == 0) return card;
+            return Column(
+              children: [
+                const Divider(),
+                card
+              ],
+            );
           },
         ),
         onRefresh: () async {
