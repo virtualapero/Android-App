@@ -18,8 +18,18 @@ class AperosService {
     return List.unmodifiable(_aperos);
   }
 
+  Apero? apero(String? id) {
+    if(id == null) return null;
+
+    Apero? apero;
+    _aperos.forEach((element) {
+      if(element.id == id) apero = element;
+    });
+
+    return apero;
+  }
+
   loadMore() async {
-    print("load");
     var res = await dependencies<HttpService>().get("jsonapi/view/virtualaperos");
     if(res.statusCode != 200) {
       _error = true;
